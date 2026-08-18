@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Will You Go Out With Me? 💖</title>
+    <!-- Tailwind CSS for clean layout and modern utilities -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Sacramento&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffeef2 0%, #ffd1dc 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .cursive {
+            font-family: 'Sacramento', cursive;
+        }
+
+        /* Heart pulsing animation for the theme */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .pulse-heart {
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Smooth fade transitions between wizard steps */
+        .step-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .step-content.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Card selection custom styling */
+        .option-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .option-card.selected {
+            background-color: #fff0f3;
+            border-color: #ff4d6d;
+            transform: scale(1.03);
+            box-shadow: 0 10px 15px -3px rgba(255, 77, 109, 0.2);
+        }
+
+        /* Floating particles background effect */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 182, 193, 0.4);
+            border-radius: 50%;
+            bottom: -50px;
+            animation: floatUp 8s infinite linear;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="relative flex items-center justify-center p-4">
+
+    <!-- Floating Background Bubbles -->
+    <div id="bubble-container" class="absolute inset-0 overflow-hidden select-none pointer-events-none z-0"></div>
+
+    <!-- Main Container Card -->
+    <div class="bg-white/80 backdrop-blur-md rounded-3xl shadow-2xl p-6 md:p-8 w-full max-w-lg text-center border border-white/40 z-10 relative">
+        
+        <!-- ================= STEP 1: THE BIG QUESTION ================= -->
+        <div id="step-1" class="step-content active">
+            <!-- Cute Header Graphic -->
+            <div class="flex justify-center mb-4">
+                <div class="pulse-heart text-6xl text-pink-500">❤️</div>
+            </div>
+            
+            <h1 class="cursive text-5xl md:text-6xl text-pink-600 font-bold mb-4">Hey there! ✨</h1>
+            <p class="text-gray-700 text-lg md:text-xl font-medium mb-8">
+                Tushana, I have a very important question to ask you 🫵... <br>
+                <span class="text-pink-600 font-bold text-2xl mt-4 block">Will you go out on a date with me? 🌹</span>
+            </p>
+
+            <!-- Interactive Buttons Grid (Using min-h and flexible padding to accommodate growing Yes button) -->
+            <div class="relative flex flex-wrap justify-center items-center gap-6 min-h-32 mt-6 p-4">
+                <!-- Yes Button -->
+                <button id="btn-yes" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 z-10 whitespace-nowrap">
+                    Yes! 🥰
+                </button>
+                
+                <!-- Elusive No Button -->
+                <button id="btn-no" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold px-8 py-3 rounded-full transition-all duration-200 ease-out z-20 whitespace-nowrap">
+                    No 😢
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= STEP 2: THE PLANNER ================= -->
+        <div id="step-2" class="step-content">
+            <h2 class="text-2xl font-bold text-pink-600 mb-2">Lessgooooo!!! 🎉</h2>
+            <p class="text-gray-600 text-sm mb-6">Here are some options (no worries, we can always change it). Select your favorites:</p>
+
+            <form id="planner-form" onsubmit="event.preventDefault();">
+                <!-- Activity Section -->
+                <div class="mb-6 text-left">
+                    <label class="block font-semibold text-gray-700 text-sm mb-2">1. What are we doing? 🤔 🗺️</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="option-card border-2 border-gray-200 rounded-xl p-3 text-center" onclick="selectOption('activity', this, 'Science Museum 🔭')">
+                            <span class="text-2xl block mb-1">🔭</span>
+                            <span class="text-xs font-medium text-gray-700">Science Museum</span>
+                        </div>
+                        <div class="option-card border-2 border-gray-200 rounded-xl p-3 text-center" onclick="selectOption('activity', this, 'Sultan Abdul Samad Pt II 🏛️')">
+                            <span class="text-2xl block mb-1">🏛️</span>
+                            <span class="text-xs font-medium text-gray-700">Sultan Abdul Samad Pt II</span>
+                        </div>
+                        <div class="option-card border-2 border-gray-200 rounded-xl p-3 text-center" onclick="selectOption('activity', this, 'Movie Date 🎬')">
+                            <span class="text-2xl block mb-1">🎬</span>
+                            <span class="text-xs font-medium text-gray-700">Movie Date</span>
+                        </div>
+                        <div class="option-card border-2 border-gray-200 rounded-xl p-3 text-center" onclick="selectOption('activity', this, 'City Tour 🏙️')">
+                            <span class="text-2xl block mb-1">🏙️</span>
+                            <span class="text-xs font-medium text-gray-700">City Tour</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Food Vibe Section -->
+                <div class="mb-6 text-left">
+                    <label class="block font-semibold text-gray-700 text-sm mb-2">2. Food/Drink preference? 🍕</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="option-card border-2 border-gray-200 rounded-xl p-3 text-center" onclick="selectOption('food', this, 'Western 🍝')">
+                            <span class="text-2xl block mb-1">🍝</span>
+                            <span class="text-xs font-medium text-gray-700">Western</span>
+                        </div>
+                        <div class="option-card border-2 border-gray-200 rounded-xl p-3 text-center" onclick="selectOption('food', this, 'Banana Leaf 🍛🌿')">
+                            <span class="text-2xl block mb-1">🍛🌿</span>
+                            <span class="text-xs font-medium text-gray-700">Banana Leaf</span>
+                        </div>
+                        <div class="option-card border-2 border-gray-200 rounded-xl p-3 text-center" onclick="selectOption('food', this, 'Nasi Lemak 🍛')">
+                            <span class="text-2xl block mb-1">🍛</span>
+                            <span class="text-xs font-medium text-gray-700">Nasi Lemak</span>
+                        </div>
+                        <div class="option-card border-2 border-gray-200 rounded-xl p-3 text-center" onclick="selectOption('food', this, 'Japanese 🍣')">
+                            <span class="text-2xl block mb-1">🍣</span>
+                            <span class="text-xs font-medium text-gray-700">Japanese</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time Preference Section -->
+                <div class="mb-8 text-left">
+                    <label class="block font-semibold text-gray-700 text-sm mb-2">3. Best time for you? 🗓️</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="option-card border-2 border-gray-200 rounded-xl p-2 text-center" onclick="selectOption('time', this, 'Friday Evening 🌆')">
+                            <span class="text-xs font-semibold text-gray-700 block">Friday</span>
+                            <span class="text-[10px] text-gray-500">Evening</span>
+                        </div>
+                        <div class="option-card border-2 border-gray-200 rounded-xl p-2 text-center" onclick="selectOption('time', this, 'Saturday Noon ☀️')">
+                            <span class="text-xs font-semibold text-gray-700 block">Saturday</span>
+                            <span class="text-[10px] text-gray-500">Noon</span>
+                        </div>
+                        <div class="option-card border-2 border-gray-200 rounded-xl p-2 text-center" onclick="selectOption('time', this, 'Sunday Morning 🌅')">
+                            <span class="text-xs font-semibold text-gray-700 block">Sunday</span>
+                            <span class="text-[10px] text-gray-500">Morning</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next Button -->
+                <button type="button" id="btn-next" disabled class="w-full bg-pink-400 text-white font-bold py-3 rounded-full shadow-lg opacity-60 cursor-not-allowed transition duration-300">
+                    Lock it in! 🔒
+                </button>
+            </form>
+        </div>
+
+        <!-- ================= STEP 3: CONFIRMATION & RSVP ================= -->
+        <div id="step-3" class="step-content">
+            <div class="flex justify-center mb-4">
+                <span class="text-6xl">💌</span>
+            </div>
+            <h2 class="cursive text-5xl text-pink-600 font-bold mb-4">It's a Date!</h2>
+            <p class="text-gray-700 mb-6">Here is our master plan summary:</p>
+
+            <!-- Selections Summary Box -->
+            <div class="bg-pink-50 border border-pink-100 rounded-2xl p-4 text-left mb-6 space-y-3">
+                <div class="flex justify-between items-center border-b border-pink-200 pb-2">
+                    <span class="text-sm text-gray-500 font-medium">Activity:</span>
+                    <span id="summary-activity" class="text-sm font-semibold text-gray-800">-</span>
+                </div>
+                <div class="flex justify-between items-center border-b border-pink-200 pb-2">
+                    <span class="text-sm text-gray-500 font-medium">Food/Drink:</span>
+                    <span id="summary-food" class="text-sm font-semibold text-gray-800">-</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-500 font-medium">Preferred Time:</span>
+                    <span id="summary-time" class="text-sm font-semibold text-gray-800">-</span>
+                </div>
+            </div>
+
+            <div id="rsvp-action-area">
+                <button id="btn-submit" class="w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold py-3 rounded-full shadow-lg transform hover:scale-105 transition duration-300">
+                    Send RSVP to Me! 💖
+                </button>
+            </div>
+
+            <!-- Success Notification Area (Hidden by Default) -->
+            <div id="success-message" class="hidden mt-4 p-3 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl text-sm font-medium animate-pulse">
+                RSVP Shared! Check your calendar, see you soon! 😍📱
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Canvas Custom Animation and Behavior Control Script -->
+    <script>
+        // Track wizard data selections
+        const selections = {
+            activity: null,
+            food: null,
+            time: null
+        };
+
+        // Track rejection attempts to scale up the Yes alternative
+        let noClickCount = 0;
+        const noPhrases = [
+            "Nooo 😢", 
+            "Are you sure? 🤨", 
+            "Think again! 🥺", 
+            "Last chance... 💔", 
+            "Surely not? 😭", 
+            "You're breaking my heart 💘", 
+            "Wrong choice! 🛑",
+            "Just click YES! 👉"
+        ];
+
+        // DOM elements references
+        const btnNo = document.getElementById('btn-no');
+        const btnYes = document.getElementById('btn-yes');
+        const btnNext = document.getElementById('btn-next');
+        const btnSubmit = document.getElementById('btn-submit');
+        
+        const step1 = document.getElementById('step-1');
+        const step2 = document.getElementById('step-2');
+        const step3 = document.getElementById('step-3');
+
+        // --- STEP 1: Teleportation & Yes-Expansion Engine ---
+        function handleNoInteraction() {
+            noClickCount++;
+
+            // 1. Expand the Yes button exponentially based on click count
+            const baseFontSize = 16; 
+            const newFontSize = baseFontSize + (noClickCount * 6);
+            const newPaddingY = 12 + (noClickCount * 4);
+            const newPaddingX = 32 + (noClickCount * 8);
+
+            btnYes.style.fontSize = `${newFontSize}px`;
+            btnYes.style.padding = `${newPaddingY}px ${newPaddingX}px`;
+
+            // 2. Cycle through increasingly desperate custom phrases on the No button
+            btnNo.innerText = noPhrases[Math.min(noClickCount, noPhrases.length - 1)];
+
+            // 3. Teleport the No button to absolute random viewport coordinates to make it slippery
+            const padding = 30;
+            const maxX = window.innerWidth - btnNo.offsetWidth - padding;
+            const maxY = window.innerHeight - btnNo.offsetHeight - padding;
+
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = `${randomX}px`;
+            btnNo.style.top = `${randomY}px`;
+        }
+
+        // Bind interactive triggers (handles direct tap clicks, hover close shaves, and touch events)
+        btnNo.addEventListener('click', handleNoInteraction);
+        btnNo.addEventListener('mouseenter', handleNoInteraction);
+        btnNo.addEventListener('touchstart', function(e) {
+            e.preventDefault(); // Stop mobile zooming/double-tap delays
+            handleNoInteraction();
+        });
+
+        // Click transition to Next Step
+        btnYes.addEventListener('click', () => {
+            // Restore default fixed configurations if No button was moved out of container context
+            btnNo.style.position = 'static';
+            transitionSteps(step1, step2);
+        });
+
+        // --- STEP 2: Custom Form Step Handler ---
+        function selectOption(category, element, value) {
+            // Find all siblings in the same category card list to clear styles
+            const siblings = element.parentNode.querySelectorAll('.option-card');
+            siblings.forEach(el => el.classList.remove('selected'));
+
+            // Select current card
+            element.classList.add('selected');
+            selections[category] = value;
+
+            // Check if all options are successfully filled to lift button restrictions
+            if (selections.activity && selections.food && selections.time) {
+                btnNext.removeAttribute('disabled');
+                btnNext.classList.remove('bg-pink-400', 'opacity-60', 'cursor-not-allowed');
+                btnNext.classList.add('bg-gradient-to-r', 'from-pink-500', 'to-rose-500', 'hover:from-pink-600', 'hover:to-rose-600');
+            }
+        }
+
+        btnNext.addEventListener('click', () => {
+            // Hydrate text nodes in confirmation summary screen
+            document.getElementById('summary-activity').innerText = selections.activity;
+            document.getElementById('summary-food').innerText = selections.food;
+            document.getElementById('summary-time').innerText = selections.time;
+
+            transitionSteps(step2, step3);
+        });
+
+        // --- STEP 3: Confetti and RSVP Submission Trigger ---
+        btnSubmit.addEventListener('click', () => {
+            createConfettiExplosion();
+            btnSubmit.style.display = 'none';
+            document.getElementById('success-message').classList.remove('hidden');
+        });
+
+        // Universal step switching helper function
+        function transitionSteps(currentStep, nextStep) {
+            currentStep.classList.remove('active');
+            setTimeout(() => {
+                nextStep.classList.add('active');
+            }, 200);
+        }
+
+        // --- BEAUTIFICATION: Procedural Background Engine ---
+        function generateBackgroundParticles() {
+            const container = document.getElementById('bubble-container');
+            const count = 15;
+            
+            for (let i = 0; i < count; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                
+                const size = Math.random() * 40 + 10;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 100}%`;
+                bubble.style.animationDelay = `${Math.random() * 5}s`;
+                bubble.style.animationDuration = `${Math.random() * 6 + 6}s`;
+                
+                container.appendChild(bubble);
+            }
+        }
+
+        // Confetti Particle FX Generator
+        function createConfettiExplosion() {
+            const colors = ['#ff4d6d', '#ff758f', '#ff8fa3', '#ffb3c1', '#ffd1dc', '#fffb00', '#00f0ff'];
+            for (let i = 0; i < 80; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = `${Math.random() * 8 + 4}px`;
+                confetti.style.height = `${Math.random() * 15 + 6}px`;
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = '50%';
+                confetti.style.top = '50%';
+                confetti.style.borderRadius = '2px';
+                confetti.style.zIndex = '99';
+                
+                // Random 360 scatter angles
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 15 + 5;
+                let xVelocity = Math.cos(angle) * velocity;
+                let yVelocity = Math.sin(angle) * velocity;
+                
+                document.body.appendChild(confetti);
+
+                let posX = window.innerWidth / 2;
+                let posY = window.innerHeight / 2;
+                let opacity = 1;
+
+                const animationInterval = setInterval(() => {
+                    posX += xVelocity;
+                    posY += yVelocity;
+                    yVelocity += 0.4; // Simulate gravity pulling items downward
+                    xVelocity *= 0.98; // Drag friction
+                    opacity -= 0.02;
+
+                    confetti.style.left = `${posX}px`;
+                    confetti.style.top = `${posY}px`;
+                    confetti.style.opacity = opacity;
+                    confetti.style.transform = `rotate(${posX}deg)`;
+
+                    if (opacity <= 0) {
+                        clearInterval(animationInterval);
+                        confetti.remove();
+                    }
+                }, 16);
+            }
+        }
+
+        // Initialize elements safely on window load
+        window.onload = function() {
+            generateBackgroundParticles();
+        };
+    </script>
+</body>
+</html>
